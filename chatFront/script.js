@@ -29,8 +29,8 @@ function joinChat() {
 }
 
 function createChat() {
-	var idchat = document.getElementById("create").value;
+	var title = document.getElementById("create").value;
 	var members = document.getElementById("members").value.split(",");
 
-	socket.send(JSON.stringify({action: "create", idchat:idchat, members:members}))
+	socket.send(JSON.stringify({action: "create", title: title, members: members}))
 }

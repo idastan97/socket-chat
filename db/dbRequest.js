@@ -53,28 +53,38 @@ module.exports = {
 		});
 	},
 	createChat: (data, callback) => {
-		db.query("INSERT INTO chat (title, admin) SELECT ?, ? WHERE (SELECT status FROM user WHERE iduser=?)=0", [data.title, data.iduser, data.iduser], (err, res) => {
+		db.query("INSERT INTO chat (title, admin) SELECT ?, ? WHERE (SELECT type FROM user WHERE iduser=?)=0", [data.title, data.iduser, data.iduser], (err, res) => {
 			if (err){
 				console.log(err);
 				callback("error", null);
 				return;
 			}
 			if ( res.affectedRows == 0 ) {
+				console.log("rrr");
 				callback("error", null);
 				return;
 			}
 			console.log(res);
-			/*db.query("SELECT ", [data.title, data.iduser, data.iduser], (err2, res2) => {
-				
-				if (err2){
-
+			var idchat = res.insertId;
+			var sqlReq = "INSERT INTO chat_members (iduser, idchat) VALUES ( "+data.iduser+" , "+idchat+" )";
+			var i;
+			for (i=0; i<data.members.length; i++){
+				sqlReq = sqlReq + ", ( "+data.members[i]+", "+idchat+" )";
+			}
+			db.query(sqlReq, [], (err, res) => {
+				if (err){
+					console.log(err);
+					callback("error", null);
+					return;
 				}
-
-				var sqlReq = "INSERT INTO chat_members (iduser, idcaht) VALUES ( ${data.iduser} , ${} )"
-			}*/
+				callback(null, 'ok');
+			});
 			
 
 		});
+	},
+	raadChat: (data, callback) => {
+		db.query("")
 	}
 
 }
