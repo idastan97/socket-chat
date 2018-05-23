@@ -51,6 +51,30 @@ module.exports = {
 			}
 			callback(null, 'ok')
 		});
+	},
+	createChat: (data, callback) => {
+		db.query("INSERT INTO chat (title, admin) SELECT ?, ? WHERE (SELECT status FROM user WHERE iduser=?)=0", [data.title, data.iduser, data.iduser], (err, res) => {
+			if (err){
+				console.log(err);
+				callback("error", null);
+				return;
+			}
+			if ( res.affectedRows == 0 ) {
+				callback("error", null);
+				return;
+			}
+			console.log(res);
+			/*db.query("SELECT ", [data.title, data.iduser, data.iduser], (err2, res2) => {
+				
+				if (err2){
+
+				}
+
+				var sqlReq = "INSERT INTO chat_members (iduser, idcaht) VALUES ( ${data.iduser} , ${} )"
+			}*/
+			
+
+		});
 	}
 
 }
