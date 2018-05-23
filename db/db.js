@@ -1,7 +1,7 @@
 var mysql = require('mysql');
 
 var con = mysql.createConnection({
-  host: "localhost",
+  host: "192.168.1.106",
   user: "root",
   password: "root",
   database : 'socket-chat'
