@@ -60,6 +60,15 @@ module.exports = (wss) => {
 						}
 					});
 				}
+				if (action === "read") {
+					db.readChat({iduser: ws.id, idchat:msgJson.idchat}, (err, res) => {
+						if (err) {
+							ws.send('bad');
+						} else {
+							ws.send('ok');
+						}
+					});
+				}
 	    	}
 	    	
 	    });

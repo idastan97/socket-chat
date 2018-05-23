@@ -71,9 +71,9 @@ module.exports = {
 			for (i=0; i<data.members.length; i++){
 				sqlReq = sqlReq + ", ( "+data.members[i]+", "+idchat+" )";
 			}
-			db.query(sqlReq, [], (err, res) => {
-				if (err){
-					console.log(err);
+			db.query(sqlReq, [], (err2, res2) => {
+				if (err2){
+					console.log(err2);
 					callback("error", null);
 					return;
 				}
@@ -83,8 +83,16 @@ module.exports = {
 
 		});
 	},
-	raadChat: (data, callback) => {
-		db.query("")
+	readChat: (data, callback) => {
+		var idchat = data.idchat, iduser = data.iduser;
+		db.query("UPDATE chat_members SET new_mes_count = 0 WHERE idchat = ? AND iduser = ?", [idchat, iduser], (err, res) => {
+			if (err){
+				console.log(err);
+				callback("error", null);
+				return;
+			}
+			callback(null, "ok");
+		}) 
 	}
 
 }

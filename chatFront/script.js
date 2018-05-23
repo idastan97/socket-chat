@@ -34,3 +34,8 @@ function createChat() {
 
 	socket.send(JSON.stringify({action: "create", title: title, members: members}))
 }
+function readChat() {
+	var idchat = document.getElementById("").value;
+
+	socket.send(JSON.stringify({action: "read", idchat: idchat}));
+}
