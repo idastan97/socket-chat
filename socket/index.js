@@ -52,7 +52,7 @@ module.exports = (wss) => {
 		    		});
 				}
 				if (action === "create") {
-					db.createChat({idiser: ws.id, title: msgJson.title, members:msgJson.members}, (err, res) => {
+					db.createChat({iduser: ws.id, title: msgJson.title, members:msgJson.members}, (err, res) => {
 						if (err) {
 							ws.send('bad');
 						} else {
