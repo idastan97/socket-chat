@@ -78,6 +78,15 @@ module.exports = (wss) => {
 						}
 					})
 				}
+				if (action === "get_all_message") {
+					db.getAllMessage({idchat:msgJson.idchat}, (err, res) => {
+						if (err) {
+							ws.send("bad");
+						} else {
+							ws.send(JSON.stringify(res))
+						}
+					})
+				}
 	    	}
 	    	
 	    });

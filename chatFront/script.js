@@ -42,3 +42,8 @@ function readChat() {
 function getNewMesCount() {
 	socket.send(JSON.stringify({action:"get_new_mes_count"}));
 }
+
+function getAllMessage() {
+	var idchat = document.getElementById("get_all_message").value;
+	socket.send(JSON.stringify({action:"get_all_message", idchat:idchat}));
+}
