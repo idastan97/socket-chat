@@ -28,15 +28,24 @@ module.exports = {
 				return;
 			}
 			db.query("INSERT INTO message (iduser, idchat, content) VALUES (?, ?, ?)", [data.iduser, data.idchat, data.content], (err2, res2) => {
+				var idmessage;
 				if (err2){
 					callback(err2, null);
 					return;
 				}
+				idmessage=res2.insertId;
 				db.query("SELECT iduser FROM chat_members WHERE idchat=?", [data.idchat], (err3, res3) => {
 					if (err3){
 						callback(err3, null);
 					}
 					callback(null, res3);
+					db.query("UPDATE chat_members SET new_mes_count=new_mes_count+1 WHERE idchat=? AND iduser<>?", [data.idchat, data.iduser], (err4, res4) => {
+						if (err4) {
+							console.log(err4);
+						}
+					});
+
+
 				});
 				
 			});
@@ -71,20 +80,27 @@ module.exports = {
 			for (i=0; i<data.members.length; i++){
 				sqlReq = sqlReq + ", ( "+data.members[i]+", "+idchat+" )";
 			}
-			db.query(sqlReq, [], (err, res) => {
-				if (err){
-					console.log(err);
+			db.query(sqlReq, [], (err2, res2) => {
+				if (err2){
+					console.log(err2);
 					callback("error", null);
 					return;
 				}
 				callback(null, 'ok');
 			});
-			
-
 		});
 	},
-	raadChat: (data, callback) => {
-		db.query("")
+	readChat: (data, callback) => {
+	    var idchat = data.idchat, iduser = data.iduser;
+	    db.query("UPDATE chat_members SET new_mes_count = 0 WHERE idchat = ? AND iduser = ?", [idchat, iduser], (err, res) => {
+	      	if (err){
+	        	console.log(err);
+	        	callback("error", null);
+	        	return;
+	      	}
+	      	callback(null, "ok");
+	    }) 
 	}
+
 
 }
