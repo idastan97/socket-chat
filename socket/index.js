@@ -41,7 +41,8 @@ module.exports = (wss) => {
 		    				}
 		    			}
 		    		});
-		    	} if (action === "join"){
+				} 
+				if (action === "join"){
 		    		db.joinChat({iduser: ws.id, idchat: msgJson.idchat}, (err, res) => {
 		    			if (err) {
 		    				ws.send('bad');
@@ -49,7 +50,16 @@ module.exports = (wss) => {
 		    				ws.send('ok');
 		    			}
 		    		});
-		    	}
+				}
+				if (action === "create") {
+					db.createChat({idiser: ws.id, title: msgJson.title, members:msgJson.members}, (err, res) => {
+						if (err) {
+							ws.send('bad');
+						} else {
+							ws.send('ok');
+						}
+					});
+				}
 	    	}
 	    	
 	    });
