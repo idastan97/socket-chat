@@ -39,3 +39,6 @@ function readChat() {
 
 	socket.send(JSON.stringify({action: "read", idchat: idchat}));
 }
+function getNewMesCount() {
+	socket.send(JSON.stringify({action:"get_new_mes_count"}));
+}

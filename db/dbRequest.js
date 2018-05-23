@@ -102,7 +102,7 @@ module.exports = {
 		}) 
 	},
 	getNewMesCount: (data, callback) => {
-		db.query("SELECT  c.idchat, c.title, m.new_mes_count FROM chat_members m JOIN chat c WHERE iduser = ?", [data.iduser], (err, res) => {
+		db.query("SELECT  c.idchat, c.title, m.new_mes_count FROM chat_members m JOIN chat c ON m.idchat=c.idchat WHERE iduser = ?", [data.iduser], (err, res) => {
 			if (err){
 				console.log(err);
 				callback("error", null);

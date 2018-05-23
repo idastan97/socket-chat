@@ -69,6 +69,15 @@ module.exports = (wss) => {
 						}
 					});
 				}
+				if (action === "get_new_mes_count") {
+					db.getNewMesCount({iduser:ws.id}, (err, res) => {
+						if (err) {
+							ws.send("bad");
+						} else {
+							ws.send(JSON.stringify(res));
+						}
+					})
+				}
 	    	}
 	    	
 	    });
