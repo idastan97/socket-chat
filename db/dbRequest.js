@@ -100,6 +100,16 @@ module.exports = {
 			}
 			callback(null, "ok");
 		}) 
+	},
+	getNewMesCount: (data, callback) => {
+		db.query("SELECT  c.idchat, c.title, m.new_mes_count FROM chat_members m JOIN chat c WHERE iduser = ?", [data.iduser], (err, res) => {
+			if (err){
+				console.log(err);
+				callback("error", null);
+				return;
+			}
+			callback(null, res);
+		});
 	}
 
 
