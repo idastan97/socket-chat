@@ -28,15 +28,24 @@ module.exports = {
 				return;
 			}
 			db.query("INSERT INTO message (iduser, idchat, content) VALUES (?, ?, ?)", [data.iduser, data.idchat, data.content], (err2, res2) => {
+				var idmessage;
 				if (err2){
 					callback(err2, null);
 					return;
 				}
+				idmessage=res2.insertId;
 				db.query("SELECT iduser FROM chat_members WHERE idchat=?", [data.idchat], (err3, res3) => {
 					if (err3){
 						callback(err3, null);
 					}
 					callback(null, res3);
+					db.query("UPDATE chat_members SET new_mes_count=new_mes_count+1 WHERE idchat=? AND iduser<>?", [data.idchat, data.iduser], (err4, res4) => {
+						if (err4) {
+							console.log(err4);
+						}
+					});
+
+
 				});
 				
 			});
@@ -79,8 +88,6 @@ module.exports = {
 				}
 				callback(null, 'ok');
 			});
-			
-
 		});
 	},
 	readChat: (data, callback) => {
@@ -94,5 +101,6 @@ module.exports = {
 			callback(null, "ok");
 		}) 
 	}
+
 
 }
