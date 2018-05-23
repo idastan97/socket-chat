@@ -110,6 +110,16 @@ module.exports = {
 			}
 			callback(null, res);
 		});
+	},
+	getAllMessage: (data, callback) => {
+		db.query("SELECT u.name, u.iduser, m.content, m.date FROM message m JOIN user u on m.iduser=u.iduser WHERE m.idchat=? ORDER BY m.date ASC", [data.idchat], (err, res) => {
+			if(err){
+				console.log(err);
+				callback("error", null);
+				return;
+			}
+			callback(null, res);
+		});
 	}
 
 
