@@ -86,6 +86,11 @@ module.exports = (wss) => {
 							ws.send(JSON.stringify(res))
 						}
 					})
+					db.readChat({iduser: ws.id, idchat:msgJson.idchat}, (err, res) => {
+						if (err) {
+						} else {
+						}
+					});
 				}
 	    	}
 	    	
