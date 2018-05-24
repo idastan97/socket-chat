@@ -41,7 +41,12 @@ module.exports = (wss) => {
 		    				}
 		    			}
 		    		});
+<<<<<<< HEAD
 		    	} if (action === "join"){
+=======
+				} 
+				if (action === "join"){
+>>>>>>> upstream/master
 		    		db.joinChat({iduser: ws.id, idchat: msgJson.idchat}, (err, res) => {
 		    			if (err) {
 		    				ws.send('bad');
@@ -49,7 +54,52 @@ module.exports = (wss) => {
 		    				ws.send('ok');
 		    			}
 		    		});
+<<<<<<< HEAD
 		    	}
+=======
+				}
+				if (action === "create") {
+					db.createChat({iduser: ws.id, title: msgJson.title, members:msgJson.members}, (err, res) => {
+						if (err) {
+							ws.send('bad');
+						} else {
+							ws.send('ok');
+						}
+					});
+				}
+				if (action === "read") {
+					db.readChat({iduser: ws.id, idchat:msgJson.idchat}, (err, res) => {
+						if (err) {
+							ws.send('bad');
+						} else {
+							ws.send('ok');
+						}
+					});
+				}
+				if (action === "get_new_mes_count") {
+					db.getNewMesCount({iduser:ws.id}, (err, res) => {
+						if (err) {
+							ws.send("bad");
+						} else {
+							ws.send(JSON.stringify(res));
+						}
+					})
+				}
+				if (action === "get_all_message") {
+					db.getAllMessage({idchat:msgJson.idchat}, (err, res) => {
+						if (err) {
+							ws.send("bad");
+						} else {
+							ws.send(JSON.stringify(res))
+						}
+					})
+					db.readChat({iduser: ws.id, idchat:msgJson.idchat}, (err, res) => {
+						if (err) {
+						} else {
+						}
+					});
+				}
+>>>>>>> upstream/master
 	    	}
 	    	
 	    });

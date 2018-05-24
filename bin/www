@@ -1,7 +1,11 @@
 #!/usr/bin/env node
 
 /**
+<<<<<<< HEAD
  * Module dependencies.
+=======
+ * Module dependenc3es.
+>>>>>>> upstream/master
  */
 
 var app = require('../app');

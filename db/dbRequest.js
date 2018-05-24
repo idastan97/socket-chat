@@ -28,15 +28,33 @@ module.exports = {
 				return;
 			}
 			db.query("INSERT INTO message (iduser, idchat, content) VALUES (?, ?, ?)", [data.iduser, data.idchat, data.content], (err2, res2) => {
+<<<<<<< HEAD
+=======
+				var idmessage;
+>>>>>>> upstream/master
 				if (err2){
 					callback(err2, null);
 					return;
 				}
+<<<<<<< HEAD
+=======
+				idmessage=res2.insertId;
+>>>>>>> upstream/master
 				db.query("SELECT iduser FROM chat_members WHERE idchat=?", [data.idchat], (err3, res3) => {
 					if (err3){
 						callback(err3, null);
 					}
 					callback(null, res3);
+<<<<<<< HEAD
+=======
+					db.query("UPDATE chat_members SET new_mes_count=new_mes_count+1 WHERE idchat=? AND iduser<>?", [data.idchat, data.iduser], (err4, res4) => {
+						if (err4) {
+							console.log(err4);
+						}
+					});
+
+
+>>>>>>> upstream/master
 				});
 				
 			});
@@ -51,6 +69,72 @@ module.exports = {
 			}
 			callback(null, 'ok')
 		});
+<<<<<<< HEAD
 	}
 
+=======
+	},
+	createChat: (data, callback) => {
+		db.query("INSERT INTO chat (title, admin) SELECT ?, ? WHERE (SELECT type FROM user WHERE iduser=?)=0", [data.title, data.iduser, data.iduser], (err, res) => {
+			if (err){
+				console.log(err);
+				callback("error", null);
+				return;
+			}
+			if ( res.affectedRows == 0 ) {
+				console.log("rrr");
+				callback("error", null);
+				return;
+			}
+			console.log(res);
+			var idchat = res.insertId;
+			var sqlReq = "INSERT INTO chat_members (iduser, idchat) VALUES ( "+data.iduser+" , "+idchat+" )";
+			var i;
+			for (i=0; i<data.members.length; i++){
+				sqlReq = sqlReq + ", ( "+data.members[i]+", "+idchat+" )";
+			}
+			db.query(sqlReq, [], (err2, res2) => {
+				if (err2){
+					console.log(err2);
+					callback("error", null);
+					return;
+				}
+				callback(null, 'ok');
+			});
+		});
+	},
+	readChat: (data, callback) => {
+		var idchat = data.idchat, iduser = data.iduser;
+		db.query("UPDATE chat_members SET new_mes_count = 0 WHERE idchat = ? AND iduser = ?", [idchat, iduser], (err, res) => {
+			if (err){
+				console.log(err);
+				callback("error", null);
+				return;
+			}
+			callback(null, "ok");
+		}) 
+	},
+	getNewMesCount: (data, callback) => {
+		db.query("SELECT  c.idchat, c.title, m.new_mes_count FROM chat_members m JOIN chat c ON m.idchat=c.idchat WHERE iduser = ?", [data.iduser], (err, res) => {
+			if (err){
+				console.log(err);
+				callback("error", null);
+				return;
+			}
+			callback(null, res);
+		});
+	},
+	getAllMessage: (data, callback) => {
+		db.query("SELECT u.name, u.iduser, m.content, m.date FROM message m JOIN user u on m.iduser=u.iduser WHERE m.idchat=? ORDER BY m.date ASC", [data.idchat], (err, res) => {
+			if(err){
+				console.log(err);
+				callback("error", null);
+				return;
+			}
+			callback(null, res);
+		});
+	}
+
+
+>>>>>>> upstream/master
 }
