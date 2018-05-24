@@ -41,12 +41,8 @@ module.exports = (wss) => {
 		    				}
 		    			}
 		    		});
-<<<<<<< HEAD
-		    	} if (action === "join"){
-=======
 				} 
 				if (action === "join"){
->>>>>>> upstream/master
 		    		db.joinChat({iduser: ws.id, idchat: msgJson.idchat}, (err, res) => {
 		    			if (err) {
 		    				ws.send('bad');
@@ -54,9 +50,6 @@ module.exports = (wss) => {
 		    				ws.send('ok');
 		    			}
 		    		});
-<<<<<<< HEAD
-		    	}
-=======
 				}
 				if (action === "create") {
 					db.createChat({iduser: ws.id, title: msgJson.title, members:msgJson.members}, (err, res) => {
@@ -99,7 +92,6 @@ module.exports = (wss) => {
 						}
 					});
 				}
->>>>>>> upstream/master
 	    	}
 	    	
 	    });
